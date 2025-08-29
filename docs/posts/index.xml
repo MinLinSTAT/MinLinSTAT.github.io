@@ -1,0 +1,1875 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss  xmlns:atom="http://www.w3.org/2005/Atom" 
+      xmlns:media="http://search.yahoo.com/mrss/" 
+      xmlns:content="http://purl.org/rss/1.0/modules/content/" 
+      xmlns:dc="http://purl.org/dc/elements/1.1/" 
+      version="2.0">
+<channel>
+<title>Min Lin</title>
+<link>https://minlinstat.github.io/posts/</link>
+<atom:link href="https://minlinstat.github.io/posts/index.xml" rel="self" type="application/rss+xml"/>
+<description>Bayesian Statistician</description>
+<image>
+<url>https://minlinstat.github.io/img/headshot.jpg</url>
+<title>Min Lin</title>
+<link>https://minlinstat.github.io/posts/</link>
+</image>
+<generator>quarto-1.8.21</generator>
+<lastBuildDate>Mon, 06 Nov 2023 05:00:00 GMT</lastBuildDate>
+<item>
+  <title>R Visualization</title>
+  <dc:creator>Min Lin</dc:creator>
+  <link>https://minlinstat.github.io/posts/ggplot/</link>
+  <description><![CDATA[ 
+
+
+
+
+
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://minlinstat.github.io/posts/ggplot/index_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://minlinstat.github.io/posts/ggplot/index_files/figure-html/unnamed-chunk-1-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<section id="preparation" class="level2">
+<h2 class="anchored" data-anchor-id="preparation"><strong>Preparation</strong></h2>
+<p>Make sure you have R version 4.3.0+ and RStudio installed.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1">version<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>version.string</span></code></pre></div></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "R version 4.4.1 (2024-06-14 ucrt)"</code></pre>
+</div>
+</div>
+<p>Install <code>tidyverse</code> and <code>palmerpenguins</code> if you haven’t done so:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">install.packages</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"tidyverse"</span>)</span>
+<span id="cb3-2"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">install.packages</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"palmerpenguins"</span>)</span></code></pre></div></div>
+</div>
+<p><a href="https://www.tidyverse.org/"><img src="https://minlinstat.github.io/posts/ggplot/tidyverse.png" class="img-fluid"></a></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="https://allisonhorst.github.io/palmerpenguins/index.html"><img src="https://minlinstat.github.io/posts/ggplot/palmerpenguins.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="153"></a></p>
+</figure>
+</div>
+<p>You only need to install a package once, but you need to load it every time you start a new session. Load <code>tidyverse</code> and <code>palmerpenguins</code>:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">library</span>(tidyverse)</span></code></pre></div></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+✔ dplyr     1.1.4     ✔ readr     2.1.5
+✔ forcats   1.0.0     ✔ stringr   1.5.1
+✔ lubridate 1.9.3     ✔ tibble    3.2.1
+✔ purrr     1.0.2     ✔ tidyr     1.3.1
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">library</span>(palmerpenguins) <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># will use the data set</span></span></code></pre></div></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'palmerpenguins' was built under R version 4.4.3</code></pre>
+</div>
+</div>
+</section>
+<section id="data-exploration-loop" class="level2">
+<h2 class="anchored" data-anchor-id="data-exploration-loop"><strong>Data exploration loop</strong></h2>
+<p><a href="https://r4ds.had.co.nz/explore-intro.html"><img src="https://minlinstat.github.io/posts/ggplot/data-science-explore.png" class="img-fluid"></a></p>
+<p>Our ultimate goal in this workshop is to recreate the following visualization displaying the relationship between flipper lengths and bill lengths of penguins, taking into consideration the species of the penguin.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://minlinstat.github.io/posts/ggplot/index_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="the-penguins" class="level2">
+<h2 class="anchored" data-anchor-id="the-penguins"><strong>The penguins</strong></h2>
+<p>The&nbsp;<code>palmerpenguins</code>&nbsp;data contains size measurements for three penguin species observed on three islands in the Palmer Archipelago, Antarctica.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://minlinstat.github.io/posts/ggplot/gorman-penguins.jpg" class="img-fluid quarto-figure quarto-figure-center figure-img" width="663"></p>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://minlinstat.github.io/posts/ggplot/antarctica-map.png" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
+</figure>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1">penguins</span></code></pre></div></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 344 × 8
+   species island    bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
+   &lt;fct&gt;   &lt;fct&gt;              &lt;dbl&gt;         &lt;dbl&gt;             &lt;int&gt;       &lt;int&gt;
+ 1 Adelie  Torgersen           39.1          18.7               181        3750
+ 2 Adelie  Torgersen           39.5          17.4               186        3800
+ 3 Adelie  Torgersen           40.3          18                 195        3250
+ 4 Adelie  Torgersen           NA            NA                  NA          NA
+ 5 Adelie  Torgersen           36.7          19.3               193        3450
+ 6 Adelie  Torgersen           39.3          20.6               190        3650
+ 7 Adelie  Torgersen           38.9          17.8               181        3625
+ 8 Adelie  Torgersen           39.2          19.6               195        4675
+ 9 Adelie  Torgersen           34.1          18.1               193        3475
+10 Adelie  Torgersen           42            20.2               190        4250
+# ℹ 334 more rows
+# ℹ 2 more variables: sex &lt;fct&gt;, year &lt;int&gt;</code></pre>
+</div>
+</div>
+<p>Let’s <code>glimpse</code> the columns:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">glimpse</span>(penguins)</span></code></pre></div></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 344
+Columns: 8
+$ species           &lt;fct&gt; Adelie, Adelie, Adelie, Adelie, Adelie, Adelie, Adel…
+$ island            &lt;fct&gt; Torgersen, Torgersen, Torgersen, Torgersen, Torgerse…
+$ bill_length_mm    &lt;dbl&gt; 39.1, 39.5, 40.3, NA, 36.7, 39.3, 38.9, 39.2, 34.1, …
+$ bill_depth_mm     &lt;dbl&gt; 18.7, 17.4, 18.0, NA, 19.3, 20.6, 17.8, 19.6, 18.1, …
+$ flipper_length_mm &lt;int&gt; 181, 186, 195, NA, 193, 190, 181, 195, 193, 190, 186…
+$ body_mass_g       &lt;int&gt; 3750, 3800, 3250, NA, 3450, 3650, 3625, 4675, 3475, …
+$ sex               &lt;fct&gt; male, female, female, NA, female, male, female, male…
+$ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007…</code></pre>
+</div>
+</div>
+<p>Among the variables in <code>penguins</code> are:</p>
+<ol type="1">
+<li><p><code>species</code>: a factor denoting penguin species (Adelie, Chinstrap, or Gentoo)</p></li>
+<li><p><code>bill_length_mm</code>: a number denoting bill length (millimeters)</p></li>
+<li><p><code>flipper_length_mm</code>: an integer denoting flipper length (millimeters)</p></li>
+</ol>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://minlinstat.github.io/posts/ggplot/culmen_depth.png" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
+</figure>
+</div>
+<p>To learn more about&nbsp;<code>penguins</code>, open its help page by running&nbsp;<a href="https://allisonhorst.github.io/palmerpenguins/reference/penguins.html"><code>?penguins</code></a>.</p>
+</section>
+<section id="creating-a-ggplot" class="level2">
+<h2 class="anchored" data-anchor-id="creating-a-ggplot"><strong>Creating a ggplot</strong></h2>
+<p><code>ggplot2</code> is a package in the <code>tidyverse</code> family. The “<strong>gg</strong>” in the name means “grammar of graphics” – a scheme for data visualization which breaks up graphs into semantic components. Since we have loaded <code>tidyverse</code>, we don’t need to load <code>ggplot2</code> again.</p>
+<p>Let’s begin a plot with the function <code>ggplot()</code>, defining a plot object that we then add <strong>layers</strong> to. The first argument of <code>ggplot()</code> is the dataset to use in the graph and so <code>ggplot(data = penguins)</code> creates an empty graph that is primed to display the <code>penguin</code> data. We create an empty canvas that we’ll paint the remaining layers of the plot onto.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ggplot</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">data =</span> penguins)</span></code></pre></div></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://minlinstat.github.io/posts/ggplot/index_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Next, we need to tell <code>ggplot()</code> how the information from our data will be visuallyv represented. The <code>mapping</code> argument of the <code>ggplot()</code> function defines how variables in the dataset are mapped to visual properties (<strong>aesthetics</strong>) of the plot.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ggplot</span>(</span>
+<span id="cb13-2">        <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">data =</span> penguins,</span>
+<span id="cb13-3">        <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">mapping =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">aes</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">x =</span> flipper_length_mm, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">y =</span> bill_length_mm)</span>
+<span id="cb13-4">)</span></code></pre></div></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://minlinstat.github.io/posts/ggplot/index_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>But where are the penguins??? We have not yet articulated, in our code, how to represent the observations from our data frame on our plot.</p>
+<p>To do so, we need to define a <strong>geom</strong>: the geometrical object that a plot uses to represent data. Use the symbol <code>+</code> to connect the canvas <code>ggplot()</code> and the geometrical object <code>geom_point()</code>. We get a scatterplot:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ggplot</span>(</span>
+<span id="cb14-2">        <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">data =</span> penguins,</span>
+<span id="cb14-3">        <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">mapping =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">aes</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">x =</span> flipper_length_mm, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">y =</span> bill_length_mm)</span>
+<span id="cb14-4">) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">geom_point</span>()</span></code></pre></div></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 2 rows containing missing values or values outside the scale range
+(`geom_point()`).</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://minlinstat.github.io/posts/ggplot/index_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="adding-regression-lines" class="level2">
+<h2 class="anchored" data-anchor-id="adding-regression-lines"><strong>Adding regression lines</strong></h2>
+<p>Use <code>geom_smooth()</code> to add a layer of smooth curve. Specify <code>method = "lm"</code> to fit a linear model.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ggplot</span>(</span>
+<span id="cb16-2">        <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">data =</span> penguins,</span>
+<span id="cb16-3">        <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">mapping =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">aes</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">x =</span> flipper_length_mm, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">y =</span> bill_length_mm)</span>
+<span id="cb16-4">) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">geom_point</span>() <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> </span>
+<span id="cb16-5">        <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">geom_smooth</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">method =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"lm"</span>)</span></code></pre></div></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 2 rows containing non-finite outside the scale range
+(`stat_smooth()`).</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 2 rows containing missing values or values outside the scale range
+(`geom_point()`).</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://minlinstat.github.io/posts/ggplot/index_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>What does the relationship between flipper length and bill length look like?</p>
+<ol type="1">
+<li><p>As flipper length increases, so does bill length</p></li>
+<li><p>There seems to be <strong>three clusters</strong></p>
+<p>Recall we have three species!</p></li>
+</ol>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Scientific hypothesis
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The relationship between flipper length and bill length differ by species.</p>
+</div>
+</div>
+</section>
+<section id="factor-and-color" class="level2">
+<h2 class="anchored" data-anchor-id="factor-and-color"><strong>Factor and color</strong></h2>
+<p>Factors are used for categorical variables, variables that have a fixed and known set of possible values.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">class</span>(penguins<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>species)</span></code></pre></div></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "factor"</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">levels</span>(penguins<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>species)</span></code></pre></div></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Adelie"    "Chinstrap" "Gentoo"   </code></pre>
+</div>
+</div>
+<p>We have used the x-axis to represent the flipper length and the y-axis to represent the bill length. How can we represent another variable on a canvas? The z-axis?</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>We can use different colors for different categories!</p>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ggplot</span>(</span>
+<span id="cb24-2">        <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">data =</span> penguins,</span>
+<span id="cb24-3">        <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">mapping =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">aes</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">x =</span> flipper_length_mm, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">y =</span> bill_length_mm, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">color =</span> species)</span>
+<span id="cb24-4">) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb24-5">        <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">geom_point</span>() <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> </span>
+<span id="cb24-6">        <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">geom_smooth</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">method =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"lm"</span>)</span></code></pre></div></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 2 rows containing non-finite outside the scale range
+(`stat_smooth()`).</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 2 rows containing missing values or values outside the scale range
+(`geom_point()`).</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://minlinstat.github.io/posts/ggplot/index_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Hooray!</p>
+<p>When a categorical variable (factor) is mapped to an aesthetic, ggplot will automatically assign a unique value of the aesthetic (here a unique color) to each unique level of the variable (each of the three species), a process known as <strong>scaling</strong>.</p>
+<p>Instead of only one regression line, now we get three, each with corresponding color. The legend has been automatically updated too.</p>
+</section>
+<section id="changing-shapes" class="level2">
+<h2 class="anchored" data-anchor-id="changing-shapes"><strong>Changing shapes</strong></h2>
+<p>It’s generally not a good idea to represent information using only colors on a plot, as people perceive colors differently due to color blindness or other color vision differences. Therefore, in addition to color, we can also map&nbsp;<code>species</code>&nbsp;to the&nbsp;<code>shape</code>&nbsp;aesthetic.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ggplot</span>(</span>
+<span id="cb28-2">        <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">data =</span> penguins,</span>
+<span id="cb28-3">        <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">mapping =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">aes</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">x =</span> flipper_length_mm, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">y =</span> bill_length_mm, </span>
+<span id="cb28-4">                      <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">color =</span> species, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">shape =</span> species)</span>
+<span id="cb28-5">) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb28-6">        <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">geom_point</span>() <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> </span>
+<span id="cb28-7">        <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">geom_smooth</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">method =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"lm"</span>)</span></code></pre></div></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 2 rows containing non-finite outside the scale range
+(`stat_smooth()`).</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 2 rows containing missing values or values outside the scale range
+(`geom_point()`).</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://minlinstat.github.io/posts/ggplot/index_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="improving-the-labels-and-the-theme" class="level2">
+<h2 class="anchored" data-anchor-id="improving-the-labels-and-the-theme"><strong>Improving the labels and the theme</strong></h2>
+<p>Use the <code>labs()</code> function in a new layer. The default canvas theme is not the best, and we’d better replace it.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ggplot</span>(</span>
+<span id="cb32-2">        <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">data =</span> penguins,</span>
+<span id="cb32-3">        <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">mapping =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">aes</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">x =</span> flipper_length_mm, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">y =</span> bill_length_mm, </span>
+<span id="cb32-4">                      <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">color =</span> species, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">shape =</span> species)</span>
+<span id="cb32-5">) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb32-6">        <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">geom_point</span>() <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> </span>
+<span id="cb32-7">        <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">geom_smooth</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">method =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"lm"</span>) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> </span>
+<span id="cb32-8">        <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">labs</span>(</span>
+<span id="cb32-9">                <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">title =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Flipper and bill length"</span>,</span>
+<span id="cb32-10">                <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">subtitle =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Dimensions for Adelie, Chinstrap and Gentoo Penguins at Palmer Station LTER"</span>,</span>
+<span id="cb32-11">                <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">x =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Flipper length (mm)"</span>,</span>
+<span id="cb32-12">                <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">y =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Bill length (mm)"</span>,</span>
+<span id="cb32-13">                <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">color =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Penguin species"</span>,</span>
+<span id="cb32-14">                <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">shape =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Penguin species"</span></span>
+<span id="cb32-15">        ) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> </span>
+<span id="cb32-16">        <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">theme_bw</span>()</span></code></pre></div></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 2 rows containing non-finite outside the scale range
+(`stat_smooth()`).</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 2 rows containing missing values or values outside the scale range
+(`geom_point()`).</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://minlinstat.github.io/posts/ggplot/index_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Caution</span>Customize it
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Type <code>theme_</code> and wait for auto-completion suggestions. Pick your favorite theme.</p>
+</div>
+</div>
+</section>
+<section id="more-customization" class="level2">
+<h2 class="anchored" data-anchor-id="more-customization"><strong>More customization</strong></h2>
+<p>Use <code>scale_color_manual()</code> to specify colors manually. The values will be matched in order of the factor <code>species</code>, which is ordered alphabetically.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Recall…
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>When a categorical variable (factor) is mapped to an aesthetic, ggplot will automatically assign a unique value of the aesthetic (here a unique color) to each unique level of the variable (each of the three species), a process known as <strong>scaling</strong>.</p>
+</div>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://minlinstat.github.io/posts/ggplot/penguins.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="421"></p>
+</figure>
+</div>
+<p><code>geom_point(size = 3, alpha = 0.8)</code> adjusts the size and the transparency of points.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ggplot</span>(</span>
+<span id="cb36-2">        <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">data =</span> penguins,</span>
+<span id="cb36-3">        <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">mapping =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">aes</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">x =</span> flipper_length_mm, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">y =</span> bill_length_mm, </span>
+<span id="cb36-4">                      <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">color =</span> species, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">shape =</span> species)</span>
+<span id="cb36-5">) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb36-6">        <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">geom_point</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">size =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">alpha =</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.8</span>) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> </span>
+<span id="cb36-7">        <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">geom_smooth</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">method =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"lm"</span>) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> </span>
+<span id="cb36-8">        <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">labs</span>(</span>
+<span id="cb36-9">                <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">title =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Flipper and bill length"</span>,</span>
+<span id="cb36-10">                <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">subtitle =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Dimensions for Adelie, Chinstrap and Gentoo Penguins at Palmer Station LTER"</span>,</span>
+<span id="cb36-11">                <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">x =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Flipper length (mm)"</span>,</span>
+<span id="cb36-12">                <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">y =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Bill length (mm)"</span>,</span>
+<span id="cb36-13">                <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">color =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Penguin species"</span>,</span>
+<span id="cb36-14">                <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">shape =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Penguin species"</span></span>
+<span id="cb36-15">        ) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> </span>
+<span id="cb36-16">        <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">theme_bw</span>() <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> </span>
+<span id="cb36-17">        <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">scale_color_manual</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">values =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"darkorange"</span>,<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"purple"</span>,<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"cyan4"</span>)) </span></code></pre></div></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 2 rows containing non-finite outside the scale range
+(`stat_smooth()`).</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 2 rows containing missing values or values outside the scale range
+(`geom_point()`).</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://minlinstat.github.io/posts/ggplot/index_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Caution</span>Customize it
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Pick your favorite colors. You may use the name with a suffix number or use the hex of the color.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"darkorange"</span></span>
+<span id="cb40-2"><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"darkorange1"</span></span>
+<span id="cb40-3"><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"darkorange2"</span></span>
+<span id="cb40-4"><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"darkorange3"</span></span>
+<span id="cb40-5"><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"darkorange4"</span></span>
+<span id="cb40-6"><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"#ff4e02"</span></span></code></pre></div></div>
+</div>
+</div>
+</div>
+</section>
+<section id="saving-your-plot" class="level2">
+<h2 class="anchored" data-anchor-id="saving-your-plot"><strong>Saving your plot!</strong></h2>
+<p>First, save your painting in a variable called <code>gg</code>:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1">gg <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ggplot</span>(</span>
+<span id="cb41-2">        <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">data =</span> penguins,</span>
+<span id="cb41-3">        <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">mapping =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">aes</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">x =</span> flipper_length_mm, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">y =</span> bill_length_mm, </span>
+<span id="cb41-4">                      <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">color =</span> species, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">shape =</span> species)</span>
+<span id="cb41-5">) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb41-6">        <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">geom_point</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">size =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">alpha =</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.8</span>) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> </span>
+<span id="cb41-7">        <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">geom_smooth</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">method =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"lm"</span>) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> </span>
+<span id="cb41-8">        <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">labs</span>(</span>
+<span id="cb41-9">                <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">title =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Flipper and bill length"</span>,</span>
+<span id="cb41-10">                <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">subtitle =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Dimensions for Adelie, Chinstrap and Gentoo Penguins at Palmer Station LTER"</span>,</span>
+<span id="cb41-11">                <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">x =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Flipper length (mm)"</span>,</span>
+<span id="cb41-12">                <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">y =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Bill length (mm)"</span>,</span>
+<span id="cb41-13">                <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">color =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Penguin species"</span>,</span>
+<span id="cb41-14">                <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">shape =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Penguin species"</span></span>
+<span id="cb41-15">        ) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> </span>
+<span id="cb41-16">        <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">theme_bw</span>() <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> </span>
+<span id="cb41-17">        <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">scale_color_manual</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">values =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"darkorange"</span>,<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"purple"</span>,<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"cyan4"</span>)) </span></code></pre></div></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ggsave</span>(</span>
+<span id="cb42-2">        <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">filename =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"my_ggplot.png"</span>,</span>
+<span id="cb42-3">        <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">plot =</span> gg</span>
+<span id="cb42-4">)</span></code></pre></div></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Saving 7 x 5 in image
+`geom_smooth()` using formula = 'y ~ x'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 2 rows containing non-finite outside the scale range
+(`stat_smooth()`).</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 2 rows containing missing values or values outside the scale range
+(`geom_point()`).</code></pre>
+</div>
+</div>
+</section>
+<section id="some-other-plots" class="level2">
+<h2 class="anchored" data-anchor-id="some-other-plots"><strong>Some other plots</strong></h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># install.packages("GGally")</span></span>
+<span id="cb46-2"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">library</span>(GGally)</span>
+<span id="cb46-3">penguins <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">%&gt;%</span></span>
+<span id="cb46-4">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">select</span>(species, body_mass_g, <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ends_with</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"_mm"</span>)) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">%&gt;%</span> </span>
+<span id="cb46-5">  GGally<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">::</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ggpairs</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">aes</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">color =</span> species)) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb46-6">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">scale_colour_manual</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">values =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"darkorange"</span>,<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"purple"</span>,<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"cyan4"</span>)) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb46-7">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">scale_fill_manual</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">values =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"darkorange"</span>,<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"purple"</span>,<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"cyan4"</span>)) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> </span>
+<span id="cb46-8">    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">theme_minimal</span>()</span></code></pre></div></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://minlinstat.github.io/posts/ggplot/index_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<ul>
+<li><p><a href="https://allisonhorst.github.io/palmerpenguins/articles/examples.html">Example graphs using the penguins data</a></p></li>
+<li><p><a href="https://r-graph-gallery.com/">The R Graph Gallery</a></p></li>
+</ul>
+</section>
+<section id="references" class="level2">
+<h2 class="anchored" data-anchor-id="references"><strong>References</strong></h2>
+<ol type="1">
+<li><p><a href="https://allisonhorst.github.io/palmerpenguins/articles/intro.html" class="uri">https://allisonhorst.github.io/palmerpenguins/articles/intro.html</a></p></li>
+<li><p><a href="https://allisonhorst.github.io/palmerpenguins/articles/examples.html" class="uri">https://allisonhorst.github.io/palmerpenguins/articles/examples.html</a></p></li>
+<li><p><a href="https://education.rstudio.com/blog/2020/07/palmerpenguins-cran/" class="uri">https://education.rstudio.com/blog/2020/07/palmerpenguins-cran/</a></p></li>
+</ol>
+
+
+</section>
+
+ ]]></description>
+  <category>true</category>
+  <category>R</category>
+  <category>Notes</category>
+  <guid>https://minlinstat.github.io/posts/ggplot/</guid>
+  <pubDate>Mon, 06 Nov 2023 05:00:00 GMT</pubDate>
+  <media:content url="https://minlinstat.github.io/posts/ggplot/finalplot.png" medium="image" type="image/png" height="103" width="144"/>
+</item>
+<item>
+  <title>Intro to R</title>
+  <dc:creator>Min Lin</dc:creator>
+  <link>https://minlinstat.github.io/posts/Intro_to_R/</link>
+  <description><![CDATA[ 
+
+
+
+
+
+<p>Special thanks to <a href="https://statsconsulting.uconn.edu/the-consulting-team/">Dr.&nbsp;Timothy E. Moore</a> for most contents of this tutorial!</p>
+<section id="preparation" class="level2">
+<h2 class="anchored" data-anchor-id="preparation">Preparation</h2>
+<section id="installing-r-and-rstudio" class="level3">
+<h3 class="anchored" data-anchor-id="installing-r-and-rstudio">Installing R and RStudio</h3>
+<p><a href="https://posit.co/download/rstudio-desktop/">Following step 1 and 2 here to download them</a></p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Recommended R version: <strong>4.3.0+</strong></p>
+</div>
+</div>
+<p>R is a powerful tool for analyzing and visualizing data. Specifically, it is a language and environment for statistical computing and graphics. As an R user you will need to learn to understand the language R uses to execute commands. And that is what we will hopefully help you with today.</p>
+<p>RStudio is an open source R integrated development environment for interfacing with R.It is useful for:</p>
+<ul>
+<li>Writing scripts for specific analyses</li>
+<li>Creating markdown documents</li>
+<li>Version control via GitHub</li>
+<li>Organizing and sharing analyses via projects</li>
+</ul>
+</section>
+<section id="checking-whether-rstudio-is-using-the-correct-version-or-r" class="level3">
+<h3 class="anchored" data-anchor-id="checking-whether-rstudio-is-using-the-correct-version-or-r">Checking whether RStudio is using the correct version or R</h3>
+<blockquote class="blockquote">
+<p>Tools -&gt; Global Options… -&gt; General</p>
+</blockquote>
+<p><img src="https://minlinstat.github.io/posts/Intro_to_R/RStudio1.png" class="img-fluid" width="590"></p>
+</section>
+</section>
+<section id="configuring-rstudio" class="level2">
+<h2 class="anchored" data-anchor-id="configuring-rstudio">Configuring RStudio</h2>
+<blockquote class="blockquote">
+<p>Tools -&gt; Global Options… -&gt; Pane Layout</p>
+</blockquote>
+<p><img src="https://minlinstat.github.io/posts/Intro_to_R/RStudio2.png" class="img-fluid" width="607"></p>
+<blockquote class="blockquote">
+<p>Tools -&gt; Global Options… -&gt; Appearance</p>
+</blockquote>
+<p><img src="https://minlinstat.github.io/posts/Intro_to_R/Appearance.png" class="img-fluid"></p>
+</section>
+<section id="navigating-rstudio" class="level2">
+<h2 class="anchored" data-anchor-id="navigating-rstudio">Navigating RStudio</h2>
+<p><img src="https://minlinstat.github.io/posts/Intro_to_R/RStudio3.png" class="img-fluid"></p>
+<ul>
+<li><p>Left: source panel (where we can write scripts)</p></li>
+<li><p>Top right: console window</p></li>
+<li><p>Bottom right: everything else</p></li>
+</ul>
+<p>There are two main ways one can work within RStudio.</p>
+<ol type="1">
+<li>Test and play within the interactive R console then copy code into a <code>.R</code> file to run later.</li>
+</ol>
+<ul>
+<li>This works well when doing small tests and initially starting off.</li>
+<li>It quickly becomes laborious</li>
+<li>Harder to keep track of what you’ve done</li>
+</ul>
+<p>In the console window you will see a <code>&gt;</code> symbol, which is an <strong>interactive command prompt</strong>.</p>
+<ul>
+<li>It operates on the same idea of a “Read, evaluate, print loop”: you type in commands, R tries to execute them, and then returns a result.</li>
+<li>This is similar to what you’d see in a terminal or command prompt.</li>
+</ul>
+<ol start="2" type="1">
+<li>Start writing in an .R file and use RStudio’s short cut keys for the Run command to push the current line, selected lines or modified lines to the interactive R console.</li>
+</ol>
+<ul>
+<li>This is a great way to start; all your code is saved for later.</li>
+<li>Can easily share code this way.</li>
+</ul>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Some shortcuts I use every single time</p>
+<ul>
+<li><code>Ctrl + 1</code>: Move Focus to Source</li>
+<li><code>Ctrl + 2</code>: Move Focus to Console</li>
+</ul>
+<blockquote class="blockquote">
+<p>More: Tools -&gt; Keyboard Shortcuts Help</p>
+</blockquote>
+</div>
+</div>
+</section>
+<section id="using-r-as-a-calculator" class="level2">
+<h2 class="anchored" data-anchor-id="using-r-as-a-calculator">Using R as a calculator</h2>
+<p>Let’s start programming by getting R to do some arithmetic for us. I am going to do this in the editor window.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Hovering over the code chunk and clicking <code>Copy to Clipboard</code>, you can copy the code and have a try yourself!</p>
+</div>
+</div>
+<p>There are a few different ways to run commands or ‘chunks’ of code from the editor window, depending on the OS you are using.</p>
+<p>Run and move cursor down:</p>
+<ul>
+<li>Click run (all systems)</li>
+<li><code>Ctrl + Enter</code> (Win, Linux)</li>
+<li><code>Cmd + Enter</code> (Mac OS)</li>
+<li><code>Alt + Enter</code> (Win, Linux)</li>
+</ul>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>You can run multiple lines of code at once. You can run lines without highlighting, code will run on line with cursor</p>
+</div>
+</div>
+<p>Run and don’t move cursor:</p>
+<ul>
+<li><code>Alt + Enter</code> (Win, Linux)</li>
+</ul>
+<p>So let’s start by running some code to do some addition:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">53</span> <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">23</span> <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># [Ctrl + Enter]</span></span></code></pre></div></div>
+</div>
+<p>Remember to actually run this we hit ctrl or cmd + enter, or click the run button.</p>
+<p>The text after each line of code is called a “comment”. Anything that follows after the hash (or octothorpe) symbol # is ignored by R when it executes code.</p>
+<p>You’ll see that the line we’ve just run pops up in the console, along with the output from the command we’ve just given R. If you run an incomplete command, R will wait for you to complete it:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span> <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># [Ctrl + Enter]</span></span></code></pre></div></div>
+</div>
+<p>Note that the <code>&gt;</code> in the console window is now a + indicating that R is waiting for the command to be completed. You can exit commands by pressing escape within the console window.</p>
+<p>When using R as a calculator, the order of operations is the same as you would have learned back in school. From highest to lowest precedence:</p>
+<ul>
+<li>Parentheses: ( )</li>
+<li>Exponents: ^</li>
+<li>Divide: /</li>
+<li>Multiply: *</li>
+<li>Add: +</li>
+<li>Subtract: -</li>
+</ul>
+<p>So for example we can try:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span> <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">5</span> <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span></span></code></pre></div></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 13</code></pre>
+</div>
+</div>
+<p>versus</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1">(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span> <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">5</span>) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span></span></code></pre></div></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 16</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>R will ignore spaces between + and - , etc.</p>
+</div>
+</div>
+</section>
+<section id="mathematical-functions" class="level2">
+<h2 class="anchored" data-anchor-id="mathematical-functions">Mathematical functions</h2>
+<p>R has many built in mathematical functions. To call a function, we simply type its name, followed by open and closing parentheses. For example:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">log</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>)  <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># natural logarithm</span></span>
+<span id="cb7-2"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">log10</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">10</span>) <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># base-10 logarithm</span></span>
+<span id="cb7-3"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">exp</span>(<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.5</span>) <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># exponent</span></span></code></pre></div></div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Note on functions
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>We have just used our first built-in R functions, i.e., <code>log()</code>, <code>log10()</code>, and <code>exp()</code>. One of the great benefits of R is the shear diversity of functions at our disposal. No matter how complex or simple the function, they operate in the same way:</p>
+<ol type="1">
+<li>Call the name of the function, e.g., <code>log</code></li>
+<li>Provide required <strong>arguments</strong> in parentheses, e.g., <code>log(1)</code></li>
+</ol>
+</div>
+</div>
+<p>These mathematical functions are relatively simple and only have one or two arguments. For instance, the <code>log()</code> function take two arguments: <code>x</code> and <code>base</code>. So, when we call</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">log</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>)</span></code></pre></div></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0</code></pre>
+</div>
+</div>
+<p>We are actually calling:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">log</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">x =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">base =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">exp</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>))</span></code></pre></div></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0</code></pre>
+</div>
+</div>
+<p>Here, <code>x</code> represents the number (or numbers) we want to take the logarithm of, and base is the base to be used for the log, which by default is <code>exp(1)</code>. Note that, with the base argument, we are calling a function within a function!</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Forget arguments? Use the help document:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1">?log</span></code></pre></div></div>
+</div>
+</div>
+</div>
+</section>
+<section id="variables-and-assignment" class="level2">
+<h2 class="anchored" data-anchor-id="variables-and-assignment">Variables and assignment</h2>
+<p>We can store values in variables using the assignment operator <code>&lt;-</code>, which is the less than sign followed by a minus like this:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1">x <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">/</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">40</span></span>
+<span id="cb13-2">x</span></code></pre></div></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.025</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Will see that x has been loaded in to the environment. <img src="https://minlinstat.github.io/posts/Intro_to_R/environment.png" class="img-fluid" width="405"></p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><code>Alt + -</code> gives <code>&lt;-</code> in Windows</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>You may see someone use <code>=</code> instead of <code>&lt;-</code>:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1">x <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">=</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">/</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">40</span></span>
+<span id="cb15-2">x</span></code></pre></div></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.025</code></pre>
+</div>
+</div>
+<p>But it’s a bad habit! Don’t use <code>=</code> to assign a variable ever.</p>
+</div>
+</div>
+<p>And we can now perform calculations using x in place of our original number. For example, take the natural log:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">log</span>(x)</span></code></pre></div></div>
+</div>
+<p>We can also reassign variables that we have created. Let make x have a value of 100:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1">x <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">100</span></span></code></pre></div></div>
+</div>
+<p>We can also update the assigned value by including the variable we want to update. E.g.:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1">x <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> x <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span></span></code></pre></div></div>
+</div>
+<p>and even:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1">y <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> x <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span></span></code></pre></div></div>
+</div>
+<p>Variable names can contain letters, numbers, underscores and periods. They cannot start with a number nor contain spaces at all. Different people use different conventions for long variable names, these include:</p>
+<ul>
+<li>periods.between.words</li>
+<li>underscores_between_words</li>
+<li>camelCaseToSeparateWords</li>
+</ul>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>I prefer <code>underscores_between_words</code>. (reasons will be clear)</p>
+</div>
+</div>
+<blockquote class="blockquote">
+<p>Which of the following are valid R variable names?</p>
+<ol type="1">
+<li><p>min_height</p></li>
+<li><p>max.height</p></li>
+<li><p>_age</p></li>
+<li><p>.mass</p></li>
+<li><p>MaxLength</p></li>
+<li><p>min-length</p></li>
+<li><p>2widths</p></li>
+<li><p>celsius2kelvin</p></li>
+</ol>
+</blockquote>
+<div class="callout callout-style-default callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-12-contents" aria-controls="callout-12" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Caution</span>Answer
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-12" class="callout-12-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>1, 2, 4, 5, 8</p>
+<ul>
+<li>You can’t start a variable name with an <code>_</code> or a number.</li>
+<li>“.mass” creates a variable, but it is a hidden variable</li>
+<li>R sees “min-length” as a mathematical operation, rather than a name</li>
+<li>But I almost only use 1 to save my sanity.</li>
+</ul>
+</div>
+</div>
+</div>
+<blockquote class="blockquote">
+<p>What will be the value of each variable (mass and age) after each statement in the following:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1">mass <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">47.5</span></span>
+<span id="cb21-2"></span>
+<span id="cb21-3">age <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">122</span></span>
+<span id="cb21-4"></span>
+<span id="cb21-5">mass <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> mass <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2.3</span></span>
+<span id="cb21-6"></span>
+<span id="cb21-7">age <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> age – <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">20</span></span></code></pre></div></div>
+</blockquote>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>You can overwrite variables!</p>
+</div>
+</div>
+</section>
+<section id="vectorization" class="level2">
+<h2 class="anchored" data-anchor-id="vectorization">Vectorization</h2>
+<p>R is vectorized: variables and functions can have vectors as values. A vector in R describes a set of values in a certain order of the same data type. For example:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">5</span> </span></code></pre></div></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1 2 3 4 5</code></pre>
+</div>
+</div>
+<p>Produces a vector of numbers. And we can perform mathematical functions on this vector:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">^</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">5</span>)</span></code></pre></div></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1]  2  4  8 16 32</code></pre>
+</div>
+</div>
+<p>Notice that what R has done here is raise 2 to the power of each number in the vector.</p>
+<p>We can also perform arithmetic on multiple vectors, for example:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1">x <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">4</span></span>
+<span id="cb26-2">y <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">5</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">8</span></span>
+<span id="cb26-3">x <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> y</span></code></pre></div></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1]  6  8 10 12</code></pre>
+</div>
+</div>
+<p>The vectorized nature of R is an incredibly useful feature that can often save you lots of time.</p>
+</section>
+<section id="brief-note-on-data-types" class="level2">
+<h2 class="anchored" data-anchor-id="brief-note-on-data-types">Brief note on data types</h2>
+<p>There are 4 main of data types:</p>
+<ol type="1">
+<li><p>double</p></li>
+<li><p>integer</p></li>
+<li><p>logical(<code>TRUE</code> and <code>FALSE</code>)</p></li>
+<li><p>character</p></li>
+</ol>
+<p>Some operations can only be performed on certain types of data. For example, mathematical functions typically need to be done one types double or integer. We can use the <code>typeof</code> function to identify a data type:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">typeof</span>(x)</span></code></pre></div></div>
+</div>
+<p>Or for a categorical vector:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">typeof</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"red"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"organge"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"blue"</span>))</span></code></pre></div></div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><code>c()</code> combines its arguments to form a vector.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If you combine data of different types in a vector, R will **coerce** them to be of the same type. It is important to keep words/characters and numbers separate!</p>
+</div>
+</div>
+</section>
+<section id="combining-vectors-into-a-dataframe" class="level2">
+<h2 class="anchored" data-anchor-id="combining-vectors-into-a-dataframe">Combining vectors into a dataframe</h2>
+<p>We can also combine vectors into a dataframe. Dataframes are extremely useful, and are typically how your data would be stored and worked with in R. Key to note is that each vector must be the same length.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1">cats <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">data.frame</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">coat =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"calico"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"black"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"tabby"</span>),</span>
+<span id="cb30-2">                    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">weight =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2.1</span>, <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">5.0</span>, <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3.2</span>),</span>
+<span id="cb30-3">                    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">likes_string =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>))</span>
+<span id="cb30-4">cats</span></code></pre></div></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    coat weight likes_string
+1 calico    2.1            1
+2  black    5.0            0
+3  tabby    3.2            1</code></pre>
+</div>
+</div>
+</section>
+<section id="experiment" class="level2">
+<h2 class="anchored" data-anchor-id="experiment">Experiment</h2>
+<p>Except built-in functions, R support external packages. When downloading R, it ships with some packages. Look up the whole list by:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">library</span>() </span></code></pre></div></div>
+</div>
+<p>To download new packages, do</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">install.packages</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"name-of-the-package"</span>)</span></code></pre></div></div>
+</div>
+<p>To make a package at your disposal,</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">library</span>(MASS)</span></code></pre></div></div>
+</div>
+<p>We will play with a data set called <code>Boston</code> in the MASS package. Use</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1">?Boston</span></code></pre></div></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">dim</span>(Boston) <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># dimension (506 rows and 14 columns)</span></span></code></pre></div></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 506  14</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">head</span>(Boston) <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># see the first 6 rows </span></span></code></pre></div></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     crim zn indus chas   nox    rm  age    dis rad tax ptratio  black lstat
+1 0.00632 18  2.31    0 0.538 6.575 65.2 4.0900   1 296    15.3 396.90  4.98
+2 0.02731  0  7.07    0 0.469 6.421 78.9 4.9671   2 242    17.8 396.90  9.14
+3 0.02729  0  7.07    0 0.469 7.185 61.1 4.9671   2 242    17.8 392.83  4.03
+4 0.03237  0  2.18    0 0.458 6.998 45.8 6.0622   3 222    18.7 394.63  2.94
+5 0.06905  0  2.18    0 0.458 7.147 54.2 6.0622   3 222    18.7 396.90  5.33
+6 0.02985  0  2.18    0 0.458 6.430 58.7 6.0622   3 222    18.7 394.12  5.21
+  medv
+1 24.0
+2 21.6
+3 34.7
+4 33.4
+5 36.2
+6 28.7</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">colnames</span>(Boston) <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># column names</span></span></code></pre></div></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "crim"    "zn"      "indus"   "chas"    "nox"     "rm"      "age"    
+ [8] "dis"     "rad"     "tax"     "ptratio" "black"   "lstat"   "medv"   </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">boxplot</span>(Boston<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>medv) <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># boxplot of median house price</span></span></code></pre></div></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://minlinstat.github.io/posts/Intro_to_R/index_files/figure-html/unnamed-chunk-25-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">boxplot</span>(Boston<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>lstat) <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># percent of households with low socioeconomic status</span></span></code></pre></div></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://minlinstat.github.io/posts/Intro_to_R/index_files/figure-html/unnamed-chunk-25-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">cor</span>(Boston<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>medv, Boston<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>lstat) <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Pearson correlation</span></span></code></pre></div></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -0.7376627</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1">my_model <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">lm</span>(medv <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">~</span> lstat, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">data =</span> Boston)</span>
+<span id="cb46-2"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">summary</span>(my_model)</span></code></pre></div></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = medv ~ lstat, data = Boston)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-15.168  -3.990  -1.318   2.034  24.500 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept) 34.55384    0.56263   61.41   &lt;2e-16 ***
+lstat       -0.95005    0.03873  -24.53   &lt;2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 6.216 on 504 degrees of freedom
+Multiple R-squared:  0.5441,    Adjusted R-squared:  0.5432 
+F-statistic: 601.6 on 1 and 504 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb48" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">plot</span>(my_model) <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># diagnostic plots</span></span></code></pre></div></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://minlinstat.github.io/posts/Intro_to_R/index_files/figure-html/unnamed-chunk-25-3.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://minlinstat.github.io/posts/Intro_to_R/index_files/figure-html/unnamed-chunk-25-4.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://minlinstat.github.io/posts/Intro_to_R/index_files/figure-html/unnamed-chunk-25-5.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://minlinstat.github.io/posts/Intro_to_R/index_files/figure-html/unnamed-chunk-25-6.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+
+
+</section>
+
+ ]]></description>
+  <category>true</category>
+  <category>R</category>
+  <category>Notes</category>
+  <guid>https://minlinstat.github.io/posts/Intro_to_R/</guid>
+  <pubDate>Mon, 06 Nov 2023 05:00:00 GMT</pubDate>
+  <media:content url="https://minlinstat.github.io/posts/Intro_to_R/thumbnail.jpg" medium="image" type="image/jpeg"/>
+</item>
+</channel>
+</rss>

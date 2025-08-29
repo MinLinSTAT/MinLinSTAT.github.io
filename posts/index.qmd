@@ -1,0 +1,16 @@
+---
+title: "Posts"
+listing:
+  contents: .
+  sort: "date desc"
+  type: default
+  categories: true
+  feed: true
+---
+
+# Posts
+
+Welcome to my posts and notes.
+
+Here you will find tutorials, course notes, and personal writings.  
+Each post may live in its own folder (e.g., *Intro_to_R*, *ggplot*), with `index.qmd` as the main entry.

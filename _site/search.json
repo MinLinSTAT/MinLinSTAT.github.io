@@ -1,0 +1,23 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Min Lin",
+    "section": "",
+    "text": "Min Lin headshot\n\n\n\n&lt;h1 class=\"tight\"&gt;Min Lin&lt;/h1&gt;\n&lt;p class=\"sub\"&gt;Postdoctoral Scholar, The Ohio State University — HEALMOD&lt;/p&gt;\n&lt;p&gt;PhD in Statistics (UConn). Research on Bayesian clinical trials and external data borrowing.&lt;/p&gt;\n&lt;p&gt;\n  &lt;a class=\"btn\" href=\"cv.qmd\"&gt;CV&lt;/a&gt;\n  &lt;a class=\"btn\" href=\"https://github.com/MinLinSTAT\" target=\"_blank\"&gt;GitHub&lt;/a&gt;\n  &lt;a class=\"btn\" href=\"mailto:minlin.stats@gmail.com\"&gt;Email&lt;/a&gt;\n&lt;/p&gt;"
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "About Me\nI am a Postdoctoral Scholar in the HEALMOD group at The Ohio State University.\nI received my PhD in Statistics from the University of Connecticut.\nContact\n📧 minlin.stats@gmail.com\n🔗 GitHub"
+  },
+  {
+    "objectID": "cv.html",
+    "href": "cv.html",
+    "title": "CV",
+    "section": "",
+    "text": "Curriculum Vitae\nYou can download my CV here: Min Lin — CV (PDF)\n\nUpdated 2025-08-29"
+  }
+]

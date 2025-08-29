@@ -1,0 +1,12 @@
+---
+title: "About"
+---
+
+# About Me
+
+I am a Postdoctoral Scholar in the HEALMOD group at The Ohio State University.  
+I received my PhD in Statistics from the University of Connecticut.  
+
+**Contact**  
+📧 [minlin.stats@gmail.com](mailto:minlin.stats@gmail.com)  
+🔗 [GitHub](https://github.com/MinLinSTAT)

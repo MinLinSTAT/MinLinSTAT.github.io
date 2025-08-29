@@ -1,0 +1,11 @@
+.btn {
+  display:inline-block;
+  padding:0.45rem 0.8rem;
+  border-radius:8px;
+  border:1px solid #d9d9d9;
+  text-decoration:none;
+  color: #111;
+  background: transparent;
+  margin-right:8px;
+}
+.hero-columns { display:flex; gap:1rem; align-items:center; }

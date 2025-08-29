@@ -1,0 +1,6 @@
+title-block-banner: false
+author: "Min Lin"
+categories: true
+format:
+  html:
+    toc: true

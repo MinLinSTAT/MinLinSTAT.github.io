@@ -1,0 +1,32 @@
+project:
+  type: website
+  output-dir: docs
+
+website:
+  title: "Min Lin"
+  site-url: https://minlinstat.github.io
+  description: "Bayesian Statistician"
+  image: img/headshot.jpg
+  navbar:
+    background: light
+    right:
+      - text: About
+        href: index.qmd 
+      - text: Posts
+        href: posts/index.qmd
+      - icon: github
+        href: https://github.com/MinLinSTAT
+      - icon: envelope
+        aria-label: Email
+        href: mailto:minlin.stats@gmail.com
+
+format:
+  html:
+    theme:
+      light: litera
+      dark: darkly
+    css: styles.css
+    toc: false     
+    toc-depth: 2
+    anchor-sections: true
+

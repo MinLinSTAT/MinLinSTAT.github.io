@@ -1,0 +1,28 @@
+---
+title: "Min Lin"
+page-layout: full
+execute:
+  enabled: true
+---
+
+::::: columns
+::: column
+![](img/headshot.jpg){fig-alt="Min Lin" width="220px" style="border-radius:8px; border:1px solid #e6e6e6"}
+:::
+
+::: column
+# Min Lin
+
+**Postdoctoral Scholar, The Ohio State University — HEALMOD**
+
+PhD in Statistics (UConn). Research on Bayesian clinical trials and external data borrowing.
+
+[Download CV](static/Min_Lin_CV.pdf){.btn target="_blank"}
+
+Updated on 2025-08-29
+:::
+:::::
+
+## About
+
+I work on Bayesian models for clinical trials with emphasis on safe borrowing from external controls. Current interests include propensity-score based borrowing methods and effective sample size measures.
